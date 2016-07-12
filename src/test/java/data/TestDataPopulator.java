@@ -1,19 +1,24 @@
 package data;
 
+import org.academy.java.Application;
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Interview;
 import org.academy.java.entity.Question;
 import org.academy.java.repository.AnswerRepository;
 import org.academy.java.repository.InterviewRepository;
 import org.academy.java.repository.QuestionRepository;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 
 import static org.academy.java.Application.DbInitializer;
 
-@Component
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(Application.class)
 public class TestDataPopulator implements DbInitializer {
 
     @Autowired
@@ -25,7 +30,13 @@ public class TestDataPopulator implements DbInitializer {
     @Autowired
     private InterviewRepository interviewRepository;
 
+    @Test
     public void init() {
+
+        questionRepository.deleteAll();
+        answerRepository.deleteAll();
+        interviewRepository.deleteAll();
+
         Interview interview1 = new Interview();
         interview1.setName("Interview for Java Spring programmer");
         interview1.setDescription("This interview is supposed to test knowledge of spring especially spring-boot and spring-rest.");
@@ -65,27 +76,27 @@ public class TestDataPopulator implements DbInitializer {
 
         Answer a1 = new Answer();
         a1.setText("lambdas");
-        a1.setRight(true);
+        a1.setCorrect(true);
         a1.setQuestion(q1);
 
         Answer a2 = new Answer();
         a2.setText("exception multi-catch");
-        a2.setRight(true);
+        a2.setCorrect(true);
         a2.setQuestion(q1);
 
         Answer a3 = new Answer();
         a3.setText("Write your text answer here...");
-        a3.setRight(true);
+        a3.setCorrect(true);
         a3.setQuestion(q2);
 
         Answer a4 = new Answer();
         a4.setText("Generics");
-        a4.setRight(true);
+        a4.setCorrect(true);
         a4.setQuestion(q3);
 
         Answer a5 = new Answer();
         a5.setText("JAX-WS 2.0");
-        a5.setRight(true);
+        a5.setCorrect(true);
         a5.setQuestion(q3);
 
         answerRepository.save(Arrays.asList(a1, a2, a3, a4, a5));

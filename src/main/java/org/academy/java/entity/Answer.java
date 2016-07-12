@@ -19,7 +19,7 @@ public class Answer {
 
     private boolean textMarkup = false;
 
-    private boolean right = false;
+    private boolean correct = false;
 
     private boolean chosen = false;
 
@@ -56,12 +56,12 @@ public class Answer {
         return this;
     }
 
-    public boolean isRight() {
-        return right;
+    public boolean isCorrect() {
+        return correct;
     }
 
-    public Answer setRight(boolean right) {
-        this.right = right;
+    public Answer setCorrect(boolean correct) {
+        this.correct = correct;
         return this;
     }
 

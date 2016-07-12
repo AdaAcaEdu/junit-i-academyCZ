@@ -51,20 +51,20 @@ public class InterviewService {
         if (question.getAnswers().size() == 0) {
 
             question.getAnswers().add(
-                    new Answer().setRight(true).setQuestion(question)
+                    new Answer().setCorrect(true).setQuestion(question)
             );
             return questionRepository.save(question);
         }
 
         Long idOfChosenRadioAnswer = chosenAnswerId != null
                 ? chosenAnswerId
-                : question.getAnswers().stream().filter(answer -> answer.isRight()).findFirst()
+                : question.getAnswers().stream().filter(answer -> answer.isCorrect()).findFirst()
                         .orElse(question.getAnswers().stream().findFirst().get())
                         .getId();
 
         question.getAnswers().stream().forEach(
                 a -> {
-                    a.setRight(a.getId() == idOfChosenRadioAnswer);
+                    a.setCorrect(a.getId() == idOfChosenRadioAnswer);
                 }
         );
 
