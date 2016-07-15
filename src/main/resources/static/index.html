@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css" type="text/css"/>
+</head>
+<body>
+
+
+<div style="margin: 20px" id="container"> </div>
+
+
+<script src="/lib/react/react.js"></script>
+<script src="/lib/react/JSXTransformer.js"></script>
+<script src="/lib/jquery/jquery-1.10.0.js" type="text/javascript" charset="utf-8"></script>
+<script src="/lib/bootstrap/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/lib/react_bootstrap/react-bootstrap.js"></script>
+
+<script type="text/jsx">
+    var Button = ReactBootstrap.Button;
+    var Input = ReactBootstrap.Input;
+</script>
+
+<script type="text/jsx">
+
+    var LoginForm = React.createClass({
+
+        getInitialState: function() {
+            return {logged: false, message: ""};
+        },
+
+        componentDidMount: function() {
+            this.callUserEndpoint(false);
+        },
+
+
+        callUserEndpoint: function(auth){
+
+            var authString = "Basic " + btoa(this.refs.login.getValue() + ":" + this.refs.password.getValue());
+
+            var headers = auth ? {'X-Requested-With' : 'XMLHttpRequest', 'Accept' : 'application/json', 'authorization' : authString}
+                               : {'X-Requested-With' : 'XMLHttpRequest', 'Accept' : 'application/json'};
+
+            $.ajax({
+                url: "/user",
+                headers: headers,
+		        success: function(result)           {  this.setState({logged: result.name}); this.callRestEndpoint(); }.bind(this),
+		        error:   function(xhr, status, err) {  this.setState({logged: false}); }.bind(this)
+	        });
+        },
+
+        callRestEndpoint: function(){
+
+            $.ajax({
+                url: "/hello",
+                headers: {'X-Requested-With' : 'XMLHttpRequest', 'Accept' : 'application/json'},
+		        success: function(result)           { this.setState({message: result.message}); }.bind(this),
+		        error:   function(xhr, status, err) { console.log(err);                 }.bind(this)
+	        });
+        },
+
+
+        render: function() {
+
+            if(this.state.logged){
+                return (<div> You are logged in as {this.state.logged} and {this.state.message} </div>);
+            }
+
+            return (
+                <div>
+                    <Input label="Login:" ref='login' placeholder='Login' type='email'/>
+                    <Input label="Password:" ref='password' placeholder='Password' type='password'/>
+                    <Button onClick={this.callUserEndpoint.bind(this, true)} bsStyle='success'>Sign in</Button>
+
+                </div>
+            );
+        }
+    });
+
+
+React.render(<LoginForm/>, container);
+
+</script>
+
+</body>
+</html>
