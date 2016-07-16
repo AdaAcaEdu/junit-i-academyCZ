@@ -24,7 +24,7 @@ public class AuthController {
     }
 
     @RequestMapping("/hello")
-    String user() {
+    String hello() {
         return "{\"message\":\"have a good day\"}";
     }
 }

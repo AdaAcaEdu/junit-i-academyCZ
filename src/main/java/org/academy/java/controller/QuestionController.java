@@ -14,21 +14,20 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
 
+import static org.slf4j.LoggerFactory.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping("/api/questions/{id}")
 public class QuestionController {
-
-    @Autowired
-    private AnswerRepository answerRepository;
-
-    @Autowired
-    private QuestionRepository questionRepository;
 
     @Autowired
     private InterviewService interviewService;
 
+
+    @RequestMapping(value = "/questions", method = POST)
+    Question saveOrUpdateQuestion(@RequestBody Question question) {
+        return interviewService.createQuestion(question);
+    }
 
     @RequestMapping(value = "/textAnswer", method = POST)
     Question makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
@@ -75,5 +74,5 @@ public class QuestionController {
         }
     }
 
-    private final static transient Logger log = LoggerFactory.getLogger(QuestionController.class);
+    private final static transient Logger log = getLogger(QuestionController.class);
 }

@@ -22,6 +22,11 @@ public class InterviewService {
 
 
     @Transactional
+    public Question createQuestion(Question question) {
+        return questionRepository.save(question);
+    }
+
+    @Transactional
     public Question makeCheckboxAnswerForQuestion(Question question) {
 
         question.setQuestionType(CHECKBOX);

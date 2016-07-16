@@ -1,6 +1,5 @@
-package data;
+package org.academy.java.data;
 
-import org.academy.java.Application;
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Interview;
 import org.academy.java.entity.Question;
@@ -8,18 +7,11 @@ import org.academy.java.repository.AnswerRepository;
 import org.academy.java.repository.InterviewRepository;
 import org.academy.java.repository.QuestionRepository;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 
-import static org.academy.java.Application.DbInitializer;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(Application.class)
-public class TestDataPopulator implements DbInitializer {
+public class TestDataPopulator {
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -99,6 +91,6 @@ public class TestDataPopulator implements DbInitializer {
         a5.setCorrect(true);
         a5.setQuestion(q3);
 
-        answerRepository.save(Arrays.asList(a1, a2, a3, a4, a5));
+        answerRepository.save(asList(a1, a2, a3, a4, a5));
     }
 }
