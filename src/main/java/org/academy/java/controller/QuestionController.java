@@ -2,17 +2,10 @@ package org.academy.java.controller;
 
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Question;
-import org.academy.java.repository.AnswerRepository;
-import org.academy.java.repository.QuestionRepository;
-import org.academy.java.service.InterviewService;
+import org.academy.java.service.QuestionService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Map;
 
 import static org.slf4j.LoggerFactory.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -21,12 +14,22 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class QuestionController {
 
     @Autowired
-    private InterviewService interviewService;
+    private QuestionService interviewService;
 
 
     @RequestMapping(value = "/questions", method = POST)
     Question saveOrUpdateQuestion(@RequestBody Question question) {
-        return interviewService.createQuestion(question);
+        return interviewService.saveOrUpdateQuestion(question);
+    }
+
+    @RequestMapping(value = "/questions")
+    Iterable<Question> saveOrUpdateQuestion() {
+        return interviewService.findAllQuestions();
+    }
+
+    @RequestMapping(value = "/question/{id}")
+    Question getQuestionById(@PathVariable("id") Long id) {
+        return interviewService.findQuestionById(id);
     }
 
     @RequestMapping(value = "/textAnswer", method = POST)

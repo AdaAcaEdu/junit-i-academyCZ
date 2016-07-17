@@ -17,6 +17,8 @@
 <script src="/lib/bootstrap/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/lib/react_bootstrap/react-bootstrap.js"></script>
 
+<script type="text/jsx" src="/app/interviews.js"></script>
+
 <script type="text/jsx">
     var Button = ReactBootstrap.Button;
     var Input = ReactBootstrap.Input;
@@ -64,7 +66,11 @@
         render: function() {
 
             if(this.state.logged){
-                return (<div> You are logged in as {this.state.logged} and {this.state.message} </div>);
+                return (<div> You are logged in as {this.state.logged} and {this.state.message}
+
+                           <Interviews/>
+
+                </div>);
             }
 
             return (

@@ -1,5 +1,6 @@
 package org.academy.java.data;
 
+import org.academy.java.Application;
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Interview;
 import org.academy.java.entity.Question;
@@ -8,9 +9,14 @@ import org.academy.java.repository.InterviewRepository;
 import org.academy.java.repository.QuestionRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 import static java.util.Arrays.asList;
+import static org.academy.java.Application.*;
 
+@Component
 public class TestDataPopulator {
 
     @Autowired
@@ -22,7 +28,7 @@ public class TestDataPopulator {
     @Autowired
     private InterviewRepository interviewRepository;
 
-    @Test
+    @PostConstruct
     public void init() {
 
         questionRepository.deleteAll();
