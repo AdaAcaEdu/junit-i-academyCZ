@@ -40,7 +40,7 @@ class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Root<Question> fromQuestion = cq.from(Question.class);
 
         for (QuestionType type : types) {
-            predicates.add(cb.equal(fromQuestion.get("questionType"), type));
+            predicates.add(cb.equal(fromQuestion.get("questionType"), type)); //TODO add generated metamodel maybe
         }
 
         cq.where(cb.or(predicates.toArray(new Predicate[predicates.size()])));
