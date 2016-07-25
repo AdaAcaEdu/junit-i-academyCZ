@@ -3,11 +3,14 @@ package org.academy.java.service;
 
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Question;
+import org.academy.java.entity.Question.QuestionType;
 import org.academy.java.repository.AnswerRepository;
 import org.academy.java.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.academy.java.entity.Question.QuestionType.*;
 
@@ -37,6 +40,11 @@ public class QuestionService {
         answer.setQuestion(question);
         answerRepository.save(answer);
         return questionRepository.save(question);
+    }
+
+    @Transactional
+    public List<Question> getQuestionsByTypes(QuestionType... questionTypes) {
+        return questionRepository.getByQuestionTypes(questionTypes);
     }
 
     @Transactional
