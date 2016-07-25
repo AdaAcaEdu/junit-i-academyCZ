@@ -23,6 +23,19 @@ public class QuestionService {
 
     @Transactional
     public Question saveOrUpdateQuestion(Question question) {
+        if (question.getQuestionType().equals(Question.QuestionType.TEXT_AREA) && question.getAnswers().isEmpty()) {
+            return makeTextAnswerForQuestion(question);
+        }
+        return questionRepository.save(question);
+    }
+
+    public Question addAnswer(Question question, Answer answer) {
+        if (question.getQuestionType() == Question.QuestionType.TEXT_AREA) {
+            return question;
+        }
+        question.getAnswers().add(answer);
+        answer.setQuestion(question);
+        answerRepository.save(answer);
         return questionRepository.save(question);
     }
 

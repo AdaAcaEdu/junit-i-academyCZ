@@ -75,9 +75,9 @@
 
             return (
                 <div>
-                    <Input label="Login:" ref='login' placeholder='Login' type='email'/>
-                    <Input label="Password:" ref='password' placeholder='Password' type='password'/>
-                    <Button onClick={this.callUserEndpoint.bind(this, true)} bsStyle='success'>Sign in</Button>
+                    <Input className="login-input" label="Login:" ref='login' placeholder='Login' type='email'/>
+                    <Input className="password-input" label="Password:" ref='password' placeholder='Password' type='password'/>
+                    <Button className="login-btn" onClick={this.callUserEndpoint.bind(this, true)} bsStyle='success'>Sign in</Button>
 
                 </div>
             );

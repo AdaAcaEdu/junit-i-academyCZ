@@ -32,6 +32,15 @@ public class QuestionController {
         return interviewService.findQuestionById(id);
     }
 
+    @RequestMapping(value = "/question/{id}/answers", method = POST)
+    Question addAnswer(@PathVariable("id") Long questionId, @RequestBody Answer answer) {
+
+        Question question = interviewService.findQuestionById(questionId);
+        throwNotFoundExceptionOnNull(question, Question.class, questionId);
+        return interviewService.addAnswer(question, answer);
+    }
+
+
     @RequestMapping(value = "/textAnswer", method = POST)
     Question makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
 
