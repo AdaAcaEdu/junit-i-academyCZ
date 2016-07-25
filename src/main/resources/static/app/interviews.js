@@ -84,14 +84,35 @@ render: function() {
                         {question.text}:
                         <br/>
                         <Answers answers={question.answers} questionType={question.questionType} questionId={question.id} load={that.props.load}/>
+                        <div>
+                            <Button className="delete-answer-btn" onClick={that.deleteQuestion.bind(that, question.id)} bsStyle='danger'>Delete question</Button>
+                        </div>
                     </fieldset>
+                    <br/>
+                    <br/>
                 </div>
             );
      });
 
     return <div>{questions}</div>;
-}
+},
 
+deleteQuestion: function (questionId) {
+    $.ajax({
+	    url: "/question/" + questionId,
+	    type: 'DELETE',
+		success: (
+		    function(question) {
+		        this.props.load();
+		    }.bind(this)
+		),
+		error: (
+		    function(xhr, status, err) {
+		        console.log(err);
+		    }.bind(this)
+		)
+	});
+}
 });
 
 
@@ -112,7 +133,12 @@ render: function() {
     }
 
     var answers = this.props.answers.map(function (answer) {
-        return ( <div className="answer-div"><input key={answer.id} type={that.props.questionType} name="answers" >{answer.text}</input></div>);
+        return (
+            <div className="answer-div">
+                <input key={answer.id} type={that.props.questionType} name="answers"/>{answer.text}&nbsp;
+                <a className="closeX" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
+            </div>
+        )
     });
 
     var answerInputRef = "a_input_" + this.props.questionId;
@@ -146,5 +172,25 @@ addAnswer: function() {
 		    }.bind(this)
 		)
 	});
+},
+
+deleteAnswer: function(answerId) {
+    alert(answerId);
+    var data = {};
+	$.ajax({
+	    url: "/answer/" + answerId,
+	    type: 'DELETE',
+		success: (
+		    function(question) {
+		        this.props.load();
+		    }.bind(this)
+		),
+		error: (
+		    function(xhr, status, err) {
+		        console.log(err);
+		    }.bind(this)
+		)
+	});
 }
+
 });

@@ -2,9 +2,11 @@ package org.academy.java.service;
 
 
 import org.academy.java.entity.Answer;
+import org.academy.java.entity.Interview;
 import org.academy.java.entity.Question;
 import org.academy.java.entity.Question.QuestionType;
 import org.academy.java.repository.AnswerRepository;
+import org.academy.java.repository.InterviewRepository;
 import org.academy.java.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private InterviewRepository interviewRepository;
 
 
     @Transactional
@@ -110,5 +115,13 @@ public class QuestionService {
     @Transactional(readOnly = true)
     public Answer findAnswerById(Long answerId) {
         return answerRepository.findOne(answerId);
+    }
+
+    public void deleteQuestion(Long id) {
+        Question question = findQuestionById(id);
+        Interview interview = question.getInterview();
+        interview.getQuestions().remove(question);
+        interviewRepository.save(interview);
+        questionRepository.delete(id);
     }
 }
