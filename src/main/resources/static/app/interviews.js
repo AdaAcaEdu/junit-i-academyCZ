@@ -80,14 +80,12 @@ render: function() {
      var questions = this.props.questions.map(function(question){
             return(
                 <div className="question-div">
-                    <fieldset key={question.id}>
-                        {question.text}:
-                        <br/>
-                        <Answers answers={question.answers} questionType={question.questionType} questionId={question.id} load={that.props.load}/>
-                        <div>
-                            <Button className="delete-answer-btn" onClick={that.deleteQuestion.bind(that, question.id)} bsStyle='danger'>Delete question</Button>
-                        </div>
-                    </fieldset>
+                    {question.text}:
+                    <br/>
+                    <Answers answers={question.answers} questionType={question.questionType} questionId={question.id} load={that.props.load}/>
+                    <div>
+                        <Button className="delete-question-btn" onClick={that.deleteQuestion.bind(that, question.id)} bsStyle='danger'>Delete question</Button>
+                    </div>
                     <br/>
                     <br/>
                 </div>
@@ -136,6 +134,14 @@ render: function() {
         return (
             <div className="answer-div">
                 <input key={answer.id} type={that.props.questionType} name="answers"/>{answer.text}&nbsp;
+            </div>
+        )
+    });
+
+    var answersControl = this.props.answers.map(function (answer) {
+        return (
+            <div className="answer-ctrl-div">
+                <input type={that.props.questionType} name="answers" checked={answer.correct} onChange={that.changeCorrectness.bind(that, answer.id)}/>&nbsp;
                 <a className="closeX" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
             </div>
         )
@@ -144,7 +150,14 @@ render: function() {
     var answerInputRef = "a_input_" + this.props.questionId;
     return (
         <div className={this.props.questionType}>
-            {answers}
+            <div>
+                <fieldset style={{float: 'left'}}>
+                    {answers}
+                </fieldset>
+                <fieldset style={{float: 'left'}}>
+                    {answersControl}
+                </fieldset>
+            </div>
             <Input className="add-answer-input" ref={answerInputRef} placeholder='Answer text' type='text'/>
             <Button className="add-answer-btn" onClick={that.addAnswer.bind(that)} bsStyle='success'>Add answer</Button>
         </div>
@@ -162,7 +175,7 @@ addAnswer: function() {
 	    data : JSON.stringify(data) ,
 	    headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
 		success: (
-		    function(question) {
+		    function(answer) {
 		        this.props.load();
 		    }.bind(this)
 		),
@@ -175,13 +188,28 @@ addAnswer: function() {
 },
 
 deleteAnswer: function(answerId) {
-    alert(answerId);
-    var data = {};
 	$.ajax({
 	    url: "/answer/" + answerId,
 	    type: 'DELETE',
 		success: (
-		    function(question) {
+		    function() {
+		        this.props.load();
+		    }.bind(this)
+		),
+		error: (
+		    function(xhr, status, err) {
+		        console.log(err);
+		    }.bind(this)
+		)
+	});
+},
+
+changeCorrectness: function(answerId) {
+	$.ajax({
+	    url: "/answer/" + answerId + "/changeCorrectness",
+	    type: 'PUT',
+		success: (
+		    function(answer) {
 		        this.props.load();
 		    }.bind(this)
 		),

@@ -23,4 +23,18 @@ public class AnswerService {
         questionRepository.save(question);
         answerRepository.delete(answer.getId());
     }
+
+    public Answer changeCorrectness(Long id) {
+        Answer answer = answerRepository.findOne(id);
+        Question question = answer.getQuestion();
+        if (question.getQuestionType() == Question.QuestionType.RADIO) {
+            for (Answer a : question.getAnswers()) {
+                a.setCorrect(false);
+                answerRepository.save(a);
+            }
+        }
+        answer.setCorrect(!answer.isCorrect());
+        answerRepository.save(answer);
+        return answer;
+    }
 }

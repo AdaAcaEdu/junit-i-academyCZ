@@ -6,6 +6,7 @@ import org.academy.java.service.InterviewService;
 import org.academy.java.service.QuestionService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,8 +35,9 @@ public class InterviewController {
         return interviewService.getInterview(id);
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/interviews/{id}/questions", method = POST)
-    Interview addQuestion (@RequestBody Question question, @PathVariable("id") Long interviewId) {
+    public Interview addQuestion (@RequestBody Question question, @PathVariable("id") Long interviewId) {
         Interview interview = interviewService.getInterview(interviewId);
         throwNotFoundExceptionOnNull(interview, Interview.class, interviewId);
 

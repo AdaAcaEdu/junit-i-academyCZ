@@ -6,7 +6,10 @@ import org.academy.java.service.InterviewService;
 import org.academy.java.service.QuestionService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 
 import static org.slf4j.LoggerFactory.*;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
@@ -22,9 +25,9 @@ public class QuestionController {
     @Autowired
     private InterviewService interviewService;
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/questions", method = POST)
-    Question saveOrUpdateQuestion(@RequestBody Question question) {
+    public Question saveOrUpdateQuestion(@RequestBody Question question) {
         return questionService.saveOrUpdateQuestion(question);
     }
 
@@ -38,30 +41,33 @@ public class QuestionController {
         return questionService.findQuestionById(id);
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/question/{id}", method = DELETE)
-    void deleteQuestion(@PathVariable("id") Long id) {
+    public void deleteQuestion(@PathVariable("id") Long id) {
         questionService.deleteQuestion(id);
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/question/{id}/answers", method = POST)
-    Question addAnswer(@PathVariable("id") Long questionId, @RequestBody Answer answer) {
+    public Question addAnswer(@PathVariable("id") Long questionId, @RequestBody Answer answer) {
 
         Question question = questionService.findQuestionById(questionId);
         throwNotFoundExceptionOnNull(question, Question.class, questionId);
-        return questionService.addAnswer(question, answer);
+        return questionService.addAnswerToQuestion(question, answer);
     }
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/textAnswer", method = POST)
-    Question makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
+    public Question makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
 
         Question question = questionService.findQuestionById(questionId);
         throwNotFoundExceptionOnNull(question, Question.class, questionId);
         return questionService.makeTextAnswerForQuestion(question);
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/radioAnswer", method = POST)
-    Question makeRadioAnswersForQuestion(@PathVariable("id") Long questionId, @RequestParam(required = false) Long chosenAnswerId) {
+    public Question makeRadioAnswersForQuestion(@PathVariable("id") Long questionId, @RequestParam(required = false) Long chosenAnswerId) {
 
         Question question = questionService.findQuestionById(questionId);
         throwNotFoundExceptionOnNull(question, Question.class, questionId);
@@ -79,8 +85,9 @@ public class QuestionController {
         return questionService.makeRadioAnswersForQuestion(question, chosenAnswerId);
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/CheckboxAnswer", method = POST)
-    Question makeCheckboxAnswersForQuestion(@PathVariable("id") Long questionId) {
+    public Question makeCheckboxAnswersForQuestion(@PathVariable("id") Long questionId) {
 
         Question question = questionService.findQuestionById(questionId);
         throwNotFoundExceptionOnNull(question, Question.class, questionId);

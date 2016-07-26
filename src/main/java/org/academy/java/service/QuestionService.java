@@ -37,7 +37,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question addAnswer(Question question, Answer answer) {
+    public Question addAnswerToQuestion(Question question, Answer answer) {
         if (question.getQuestionType() == Question.QuestionType.TEXT_AREA) {
             return question;
         }
