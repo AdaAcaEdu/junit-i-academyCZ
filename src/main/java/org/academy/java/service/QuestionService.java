@@ -25,10 +25,6 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
-    private InterviewRepository interviewRepository;
-
-
     @Transactional
     public Question saveOrUpdateQuestion(Question question) {
         if (question.getQuestionType().equals(Question.QuestionType.TEXT_AREA) && question.getAnswers().isEmpty()) {
@@ -37,14 +33,14 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
+    @Transactional
     public Question addAnswerToQuestion(Question question, Answer answer) {
         if (question.getQuestionType() == Question.QuestionType.TEXT_AREA) {
             return question;
         }
-        question.getAnswers().add(answer);
         answer.setQuestion(question);
         answerRepository.save(answer);
-        return questionRepository.save(question);
+        return questionRepository.findOne(question.getId());
     }
 
     @Transactional
@@ -117,11 +113,8 @@ public class QuestionService {
         return answerRepository.findOne(answerId);
     }
 
+    @Transactional
     public void deleteQuestion(Long id) {
-        Question question = findQuestionById(id);
-        Interview interview = question.getInterview();
-        interview.getQuestions().remove(question);
-        interviewRepository.save(interview);
         questionRepository.delete(id);
     }
 }

@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 
+import java.util.Iterator;
+
 public class QuestionServiceTest {
 
     @InjectMocks
@@ -40,6 +42,46 @@ public class QuestionServiceTest {
 
     @Test
     public void testMakeRadioAnswersForQuestion() throws Exception {
-        //TODO create junit test with mockito
+        Question question = new Question();
+        questionService.makeRadioAnswersForQuestion(question, null);
+        Iterator<Answer> itr = question.getAnswers().iterator();
+
+        Assert.assertEquals(question.getAnswers().size(), 1);
+        Assert.assertTrue(itr.next().isCorrect());
+
+        question = new Question();
+        question.setQuestionType(Question.QuestionType.CHECKBOX);
+        question.getAnswers().add(new Answer().setId(1).setCorrect(true));
+        question.getAnswers().add(new Answer().setId(2).setCorrect(true));
+        questionService.makeRadioAnswersForQuestion(question, null);
+        itr = question.getAnswers().iterator();
+
+        Assert.assertEquals(2, question.getAnswers().size());
+        Assert.assertTrue(itr.next().isCorrect());
+        Assert.assertFalse(itr.next().isCorrect());
+
+        question = new Question();
+        question.setQuestionType(Question.QuestionType.CHECKBOX);
+        question.getAnswers().add(new Answer().setId(1).setCorrect(false));
+        question.getAnswers().add(new Answer().setId(2).setCorrect(true));
+        questionService.makeRadioAnswersForQuestion(question, null);
+
+        Assert.assertEquals(2, question.getAnswers().size());
+        itr = question.getAnswers().iterator();
+        Assert.assertFalse(itr.next().isCorrect());
+        Assert.assertTrue(itr.next().isCorrect());
+
+        question = new Question();
+        question.setQuestionType(Question.QuestionType.CHECKBOX);
+        question.getAnswers().add(new Answer().setId(1).setCorrect(true));
+        question.getAnswers().add(new Answer().setId(2).setCorrect(false));
+        questionService.makeRadioAnswersForQuestion(question, (long)2);
+
+        Assert.assertEquals(2, question.getAnswers().size());
+        itr = question.getAnswers().iterator();
+        Assert.assertFalse(itr.next().isCorrect());
+        Assert.assertTrue(itr.next().isCorrect());
     }
+
+
 }

@@ -41,11 +41,9 @@ public class InterviewController {
         Interview interview = interviewService.getInterview(interviewId);
         throwNotFoundExceptionOnNull(interview, Interview.class, interviewId);
 
-        interview.getQuestions().add(question);
         question.setInterview(interview);
         questionService.saveOrUpdateQuestion(question);
-
-        return interviewService.saveOrUpdateInterview(interview);
+        return interviewService.getInterview(interviewId);
     }
 
     private void throwNotFoundExceptionOnNull(Object o, Class clazz, Long id) {
