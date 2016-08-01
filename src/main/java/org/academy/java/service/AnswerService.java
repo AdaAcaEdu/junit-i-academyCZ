@@ -13,15 +13,8 @@ public class AnswerService {
     @Autowired
     AnswerRepository answerRepository;
 
-    @Autowired
-    QuestionRepository questionRepository;
-
     public void deleteAnswer(Long id) {
-        Answer answer = answerRepository.findOne(id);
-        Question question = answer.getQuestion();
-        question.getAnswers().remove(answer);
-        questionRepository.save(question);
-        answerRepository.delete(answer.getId());
+        answerRepository.delete(id);
     }
 
     public Answer changeCorrectness(Long id) {
@@ -29,8 +22,10 @@ public class AnswerService {
         Question question = answer.getQuestion();
         if (question.getQuestionType() == Question.QuestionType.RADIO) {
             for (Answer a : question.getAnswers()) {
-                a.setCorrect(false);
-                answerRepository.save(a);
+                if (a.getId() != id) {
+                    a.setCorrect(false);
+                    answerRepository.save(a);
+                }
             }
         }
         answer.setCorrect(!answer.isCorrect());

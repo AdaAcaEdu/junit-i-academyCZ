@@ -133,7 +133,7 @@ render: function() {
     var answers = this.props.answers.map(function (answer) {
         return (
             <div className="answer-div">
-                <input key={answer.id} type={that.props.questionType} name="answers"/>{answer.text}&nbsp;
+                <input key={answer.id} type={that.props.questionType} name="answers"/>{answer.text}
             </div>
         )
     });
@@ -141,8 +141,8 @@ render: function() {
     var answersControl = this.props.answers.map(function (answer) {
         return (
             <div className="answer-ctrl-div">
-                <input type={that.props.questionType} name="answers" checked={answer.correct} onChange={that.changeCorrectness.bind(that, answer.id)}/>&nbsp;
-                <a className="closeX" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
+                &nbsp;<input type={that.props.questionType} name="answers" checked={answer.correct} onChange={that.changeCorrectness.bind(that, answer.id)}/>
+                &nbsp;<a className="closeX" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
             </div>
         )
     });
