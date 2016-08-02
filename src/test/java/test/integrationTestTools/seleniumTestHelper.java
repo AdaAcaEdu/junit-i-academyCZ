@@ -4,8 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 /**
@@ -17,11 +19,22 @@ public class SeleniumTestHelper {
     public static int TEXTAREA_INDEX = 1;
     public static int RADIO_INDEX = 2;
 
-    public WebDriver driver;
+    private WebDriver driver;
 
-    public SeleniumTestHelper(WebDriver driver) {
-        this.driver = driver;
+    public SeleniumTestHelper() {
     }
+
+    public void openBrowser() {
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get("localhost:8080");
+    }
+
+    public void closeBrowser() {
+        driver.close();
+    }
+
     public WebElement getFirstInterviewLastQuestionDiv() {
         WebElement interviewDiv = driver.findElement(By.className("interview-div"));
         List<WebElement> questionDivs = interviewDiv.findElements(By.className("question-div"));
@@ -40,17 +53,26 @@ public class SeleniumTestHelper {
         return answerDiv.getText();
     }
 
-    public void createQuestionInFirstInterview(String text, int typeIndex) {
+    public void login() throws Exception {
+        driver.findElement(By.className("login-input")).sendKeys("admin");
+        driver.findElement(By.className("password-input")).sendKeys("admin");
+        driver.findElement(By.className("login-btn")).click();
+        Thread.sleep(2000);
+    }
+
+    public void createQuestionInFirstInterview(String text, int typeIndex) throws Exception {
         driver.findElement(By.className("add-question-input")).sendKeys(text);
         driver.findElement(By.className("add-question-select")).click();
         IntStream.range(0, typeIndex).forEach(i -> driver.findElement(By.className("add-question-select")).sendKeys(Keys.ARROW_DOWN));
         driver.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
         driver.findElement(By.className("add-question-btn")).click();
+        Thread.sleep(2000);
     }
 
-    public void createAnswerInFirstInterviewLastQuestion(String text) {
+    public void createAnswerInFirstInterviewLastQuestion(String text) throws Exception {
         WebElement questionDiv = getFirstInterviewLastQuestionDiv();
         questionDiv.findElement(By.className("add-answer-input")).sendKeys(text);
         questionDiv.findElement(By.className("add-answer-btn")).click();
+        Thread.sleep(2000);
     }
 }

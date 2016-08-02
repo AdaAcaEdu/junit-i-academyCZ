@@ -1,7 +1,7 @@
 Feature: question creation
 
   Background:
-    Given user opened browse and went to "localhost:8080"
+    Given user opened browser and went to "localhost:8080"
     And user logged in
 
   Scenario: create text question
