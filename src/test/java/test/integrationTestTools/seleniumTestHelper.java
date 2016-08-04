@@ -25,7 +25,7 @@ public class SeleniumTestHelper {
     }
 
     public void openBrowser() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("localhost:8080");
@@ -61,11 +61,12 @@ public class SeleniumTestHelper {
     }
 
     public void createQuestionInFirstInterview(String text, int typeIndex) throws Exception {
-        driver.findElement(By.className("add-question-input")).sendKeys(text);
-        driver.findElement(By.className("add-question-select")).click();
-        IntStream.range(0, typeIndex).forEach(i -> driver.findElement(By.className("add-question-select")).sendKeys(Keys.ARROW_DOWN));
-        driver.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
-        driver.findElement(By.className("add-question-btn")).click();
+        WebElement interviewDiv = driver.findElement(By.className("interview-div"));
+        interviewDiv.findElement(By.className("add-question-input")).sendKeys(text);
+        interviewDiv.findElement(By.className("add-question-select")).click();
+        IntStream.range(0, typeIndex).forEach(i -> interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ARROW_DOWN));
+        interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
+        interviewDiv.findElement(By.className("add-question-btn")).click();
         Thread.sleep(2000);
     }
 
