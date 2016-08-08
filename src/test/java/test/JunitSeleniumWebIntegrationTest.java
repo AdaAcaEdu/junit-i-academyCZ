@@ -29,6 +29,7 @@ public class JunitSeleniumWebIntegrationTest {
     public void init() throws Exception{
         seleniumTestHelper = new SeleniumTestHelper();
         seleniumTestHelper.openBrowser();
+        seleniumTestHelper.navigateToHomepage();
         seleniumTestHelper.login();
     }
 

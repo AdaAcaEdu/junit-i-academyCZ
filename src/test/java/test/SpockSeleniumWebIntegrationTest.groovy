@@ -15,13 +15,14 @@ class SpockSeleniumWebIntegrationTest extends Specification {
     def setup() {
         seleniumTestHelper = new SeleniumTestHelper();
         seleniumTestHelper.openBrowser();
+        seleniumTestHelper.navigateToHomepage();
         seleniumTestHelper.login();
     }
 
     def "Test radio, checkbox and text question creation and answer adding"() {
 
         when "user creates question and adds answer to it":
-        seleniumTestHelper.createQuestionInFirstInterview(questionText, index);
+        seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
         index != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText) : true;
 
         then "question appears as last in the interview and answer appears last in the question":
@@ -29,7 +30,7 @@ class SpockSeleniumWebIntegrationTest extends Specification {
         index != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText : true;
 
         where:
-        questionText | answerText | index
+        questionText | answerText | typeIndex
         "This is question with checkbox" | "This is checkbox answer" | SeleniumTestHelper.CHECKBOX_INDEX
         "This is question with textarea" | null | SeleniumTestHelper.TEXTAREA_INDEX
         "This is question with radio" | "This is radio answer" | SeleniumTestHelper.RADIO_INDEX

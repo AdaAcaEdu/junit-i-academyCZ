@@ -19,49 +19,51 @@ public class CucumberSeleniumQuestionCreationTest {
 
     private SeleniumTestHelper seleniumTestHelper;
 
-    @Given("^user opened browser and went to \"([^\"]*)\"$")
-    public void user_opened_browser_and_went_to(String arg1) throws Throwable {
+    @Given("^user opens browser$")
+    public void user_opens_browser() throws Throwable {
         seleniumTestHelper = new SeleniumTestHelper();
         seleniumTestHelper.openBrowser();
     }
 
-    @Given("^user logged in$")
+    @Given("^user navigates to homepage$")
+    public void user_navigates_to_homepage() throws Throwable {
+        seleniumTestHelper.navigateToHomepage();
+    }
+
+    @Given("^user loggs in$")
     public void user_logged_in() throws Throwable {
         seleniumTestHelper.login();
+}
+
+    @When("^user creates \"([^\"]*)\" question of type (\\d+)$")
+    public void user_creates_question_of_type(String arg1, int arg2) throws Throwable {
+        seleniumTestHelper.createQuestionInFirstInterview(arg1, arg2);
     }
 
-    @When("^user creates text question \"([^\"]*)\"$")
-    public void user_creates_text_question(String arg1) throws Throwable {
-        seleniumTestHelper.createQuestionInFirstInterview(arg1, SeleniumTestHelper.TEXTAREA_INDEX);
-    }
-
-    @When("^user creates radio question \"([^\"]*)\"$")
-    public void user_creates_radio_question(String arg1) throws Throwable {
-        seleniumTestHelper.createQuestionInFirstInterview(arg1, SeleniumTestHelper.RADIO_INDEX);
-    }
-
-    @When("^user creates checkbox question \"([^\"]*)\"$")
-    public void user_creates_checkbox_question(String arg1) throws Throwable {
-        seleniumTestHelper.createQuestionInFirstInterview(arg1, SeleniumTestHelper.CHECKBOX_INDEX);
-    }
-
-    @When("^user adds answer \"([^\"]*)\" to question$")
+    @When("^user adds \"([^\"]*)\" answer to question$")
     public void user_adds_answer_to_question(String arg1) throws Throwable {
         seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(arg1);
     }
 
-
-    @Then("^answer \"([^\"]*)\" appears as last in question$")
-    public void answer_appears_as_last_in_question(String arg1) throws Throwable {
-        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), arg1);
-    }
-
-    @Then("^question \"([^\"]*)\" appears as last in interview$")
+    @Then("^\"([^\"]*)\" question appears as last in interview$")
     public void question_appears_as_last_in_interview(String arg1) throws Throwable {
-        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionText(), arg1);
+        Assert.assertTrue(seleniumTestHelper.getFirstInterviewLastQuestionText().equals(arg1));
     }
 
-    @Then("^close browser$")
+    @Then("^\"([^\"]*)\" answer appears as last in question$")
+    public void answer_appears_as_last_in_question(String arg1) throws Throwable {
+        Assert.assertTrue(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText().equals(arg1));
+    }
+
+    @When("^user adds none answer to question$")
+    public void user_adds_none_answer_to_question() throws Throwable {
+    }
+
+    @Then("^none answer appears as last in question$")
+    public void none_answer_appears_as_last_in_question() throws Throwable {
+    }
+
+    @Then("^user closes browser$")
     public void close_browser() throws Throwable {
         seleniumTestHelper.closeBrowser();
     }

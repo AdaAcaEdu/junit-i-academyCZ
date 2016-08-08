@@ -1,24 +1,19 @@
 Feature: question creation
 
   Background:
-    Given user opened browser and went to "localhost:8080"
-    And user logged in
+    Given user opens browser
+    And user navigates to homepage
+    And user logs in
 
-  Scenario: create text question
-    When user creates text question "This is text question"
-    Then  question "This is text question" appears as last in interview
-    Then close browser
+  Scenario Outline: create question
+    When user creates <questionText> question of type <typeIndex>
+    And user adds <answerText> answer to question
+    Then <questionText> question appears as last in interview
+    And <answerText> answer appears as last in question
+    Then user closes browser
 
-  Scenario: create radio question
-    When user creates radio question "This is radio question"
-    And user adds answer "This is radio answer" to question
-    Then question "This is radio question" appears as last in interview
-    And answer "This is radio answer" appears as last in question
-    Then close browser
-
-  Scenario: create checkbox question
-    When user creates checkbox question "This is checkbox question"
-    And user adds answer "This is checkbox answer" to question
-    Then question "This is checkbox question" appears as last in interview
-    And answer "This is checkbox answer" appears as last in question
-    Then close browser
+    Examples:
+      | questionText | answerText | typeIndex |
+      | "This is question with checkbox" | "This is checkbox answer" | 0 |
+      | "This is question with textarea" | none | 1 |
+      | "This is question with radio" | "This is radio answer" | 2 |
