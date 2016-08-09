@@ -9,7 +9,6 @@ public class InterviewEvaluatorTest extends Specification{
     def "Evaluate checkbox question"() {
 
         setup:
-
         InterviewEvaluator interviewEvaluator = new InterviewEvaluator();
         Question question = new Question();
         question.setQuestionType(Question.QuestionType.CHECKBOX);
@@ -19,12 +18,10 @@ public class InterviewEvaluatorTest extends Specification{
         question.getAnswers().add(a2);
 
         when:
-
         a1.setChosen(a1Chosen).setCorrect(a1Correct);
         a2.setChosen(a2Chosen).setCorrect(a2Correct);
 
         then:
-
         interviewEvaluator.evaluateCheckboxQuestion(question) == evaluation;
 
         where:

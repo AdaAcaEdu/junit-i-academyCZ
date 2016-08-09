@@ -55,14 +55,6 @@ public class CucumberSeleniumQuestionCreationSteps {
         Assert.assertTrue(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText().equals(arg1));
     }
 
-    @When("^user adds none answer to question$")
-    public void user_adds_none_answer_to_question() throws Throwable {
-    }
-
-    @Then("^none answer appears as last in question$")
-    public void none_answer_appears_as_last_in_question() throws Throwable {
-    }
-
     @Then("^user closes browser$")
     public void close_browser() throws Throwable {
         seleniumTestHelper.closeBrowser();

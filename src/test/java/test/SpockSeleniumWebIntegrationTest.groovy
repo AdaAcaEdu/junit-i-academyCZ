@@ -19,20 +19,35 @@ class SpockSeleniumWebIntegrationTest extends Specification {
         seleniumTestHelper.login();
     }
 
-    def "Test radio, checkbox and text question creation and answer adding"() {
+    def "Test radio, checkbox and text question creation"() {
 
         when:
         seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
-        typeIndex != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText) : true;
 
         then:
         seleniumTestHelper.getFirstInterviewLastQuestionText() == questionText;
-        typeIndex != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText : true;
+
+        where:
+        questionText | typeIndex
+        "This is question with checkbox" | SeleniumTestHelper.CHECKBOX_INDEX
+        "This is question with textarea" | SeleniumTestHelper.TEXTAREA_INDEX
+        "This is question with radio" | SeleniumTestHelper.RADIO_INDEX
+    }
+
+    def "Test radio and checkbox answer creation"() {
+
+        setup:
+        seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
+
+        when:
+        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText);
+
+        then:
+        seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText;
 
         where:
         questionText | answerText | typeIndex
         "This is question with checkbox" | "This is checkbox answer" | SeleniumTestHelper.CHECKBOX_INDEX
-        "This is question with textarea" | null | SeleniumTestHelper.TEXTAREA_INDEX
         "This is question with radio" | "This is radio answer" | SeleniumTestHelper.RADIO_INDEX
     }
 

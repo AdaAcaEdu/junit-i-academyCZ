@@ -2,17 +2,12 @@ package org.academy.java.controller;
 
 import org.academy.java.entity.Answer;
 import org.academy.java.entity.Question;
-import org.academy.java.entity.Question.QuestionType;
-import org.academy.java.repository.QuestionRepository;
 import org.academy.java.service.QuestionService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 import test.IntegrationTest;
 
-import java.util.List;
-
-import static org.academy.java.entity.Question.QuestionType.*;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;

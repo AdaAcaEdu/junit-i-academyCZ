@@ -1,11 +1,16 @@
 package test;
 
 import org.academy.java.Application;
+import org.academy.java.entity.Interview;
+import org.academy.java.entity.Question;
+import org.academy.java.repository.InterviewRepository;
+import org.academy.java.repository.QuestionRepository;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,19 +47,27 @@ public class JunitSeleniumWebIntegrationTest {
     @Test
     public void testCreateRadioQuestion() throws Exception{
         seleniumTestHelper.createQuestionInFirstInterview(radioQuestionText, SeleniumTestHelper.RADIO_INDEX);
-        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(radioAnswerText);
-
         Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionText(), radioQuestionText);
-        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), radioAnswerText);
     }
 
     @Test
     public void testCreateCheckboxQuestion() throws Exception{
         seleniumTestHelper.createQuestionInFirstInterview(checkBoxQuestionText, SeleniumTestHelper.CHECKBOX_INDEX);
-        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(checkBoxAnswerText);
-
-        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), checkBoxAnswerText);
         Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionText(), checkBoxQuestionText);
+    }
+
+    @Test
+    public void testCreateRadioAnswer() throws Exception{
+        seleniumTestHelper.createQuestionInFirstInterview(radioQuestionText, SeleniumTestHelper.RADIO_INDEX);
+        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(radioAnswerText);
+        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), radioAnswerText);
+    }
+
+    @Test
+    public void testCreateCheckboxAnswer() throws Exception{
+        seleniumTestHelper.createQuestionInFirstInterview(checkBoxQuestionText, SeleniumTestHelper.CHECKBOX_INDEX);
+        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(checkBoxAnswerText);
+        Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), checkBoxAnswerText);
     }
 
     @After
