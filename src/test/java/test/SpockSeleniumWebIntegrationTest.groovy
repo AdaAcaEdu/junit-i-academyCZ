@@ -21,13 +21,13 @@ class SpockSeleniumWebIntegrationTest extends Specification {
 
     def "Test radio, checkbox and text question creation and answer adding"() {
 
-        when "user creates question and adds answer to it":
+        when:
         seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
-        index != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText) : true;
+        typeIndex != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText) : true;
 
-        then "question appears as last in the interview and answer appears last in the question":
+        then:
         seleniumTestHelper.getFirstInterviewLastQuestionText() == questionText;
-        index != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText : true;
+        typeIndex != SeleniumTestHelper.TEXTAREA_INDEX ? seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText : true;
 
         where:
         questionText | answerText | typeIndex

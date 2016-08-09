@@ -5,7 +5,7 @@ Feature: question creation
     And user navigates to homepage
     And user logs in
 
-  Scenario Outline: create question
+  Scenario Outline: Test radio, checkbox and text question creation and answer adding
     When user creates <questionText> question of type <typeIndex>
     And user adds <answerText> answer to question
     Then <questionText> question appears as last in interview

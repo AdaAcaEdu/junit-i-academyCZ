@@ -15,7 +15,7 @@ import test.integrationTestTools.SeleniumTestHelper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class, loader = SpringApplicationContextLoader.class)
 @WebIntegrationTest(value = "server.port=8080")
-public class CucumberSeleniumQuestionCreationTest {
+public class CucumberSeleniumQuestionCreationSteps {
 
     private SeleniumTestHelper seleniumTestHelper;
 
@@ -30,7 +30,7 @@ public class CucumberSeleniumQuestionCreationTest {
         seleniumTestHelper.navigateToHomepage();
     }
 
-    @Given("^user loggs in$")
+    @Given("^user logs in$")
     public void user_logged_in() throws Throwable {
         seleniumTestHelper.login();
 }
