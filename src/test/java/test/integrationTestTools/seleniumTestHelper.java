@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 /**
@@ -15,9 +14,11 @@ import java.util.stream.IntStream;
  */
 public class SeleniumTestHelper {
 
-    public static int CHECKBOX_INDEX = 0;
-    public static int TEXTAREA_INDEX = 1;
-    public static int RADIO_INDEX = 2;
+    private static final int BROWSER_WAIT_TIME = 2000;
+
+    public static final int CHECKBOX_INDEX = 0;
+    public static final int TEXTAREA_INDEX = 1;
+    public static final int RADIO_INDEX = 2;
 
     private WebDriver driver;
 
@@ -27,7 +28,6 @@ public class SeleniumTestHelper {
     public void openBrowser() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     public void navigateToHomepage() {
@@ -60,7 +60,7 @@ public class SeleniumTestHelper {
         driver.findElement(By.className("login-input")).sendKeys("admin");
         driver.findElement(By.className("password-input")).sendKeys("admin");
         driver.findElement(By.className("login-btn")).click();
-        Thread.sleep(2000);
+        Thread.sleep(BROWSER_WAIT_TIME);
     }
 
     public void createQuestionInFirstInterview(String text, int typeIndex) throws Exception {
@@ -70,13 +70,13 @@ public class SeleniumTestHelper {
         IntStream.range(0, typeIndex).forEach(i -> interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ARROW_DOWN));
         interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
         interviewDiv.findElement(By.className("add-question-btn")).click();
-        Thread.sleep(2000);
+        Thread.sleep(BROWSER_WAIT_TIME);
     }
 
     public void createAnswerInFirstInterviewLastQuestion(String text) throws Exception {
         WebElement questionDiv = getFirstInterviewLastQuestionDiv();
         questionDiv.findElement(By.className("add-answer-input")).sendKeys(text);
         questionDiv.findElement(By.className("add-answer-btn")).click();
-        Thread.sleep(2000);
+        Thread.sleep(BROWSER_WAIT_TIME);
     }
 }
