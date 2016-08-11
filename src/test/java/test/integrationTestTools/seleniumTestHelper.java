@@ -49,10 +49,14 @@ public class SeleniumTestHelper {
         return questionDiv.findElement(By.tagName("span")).getText();
     }
 
-    public String getFirstInterviewLastQuestionLastAnswerText() {
+    public WebElement getFirstInterviewLastQuestionLastAnswerDiv() {
         WebElement questionDiv = getFirstInterviewLastQuestionDiv();
         List<WebElement> answerDivs = questionDiv.findElements(By.className("answer-div"));
-        WebElement answerDiv = answerDivs.get(answerDivs.size() - 1);
+        return answerDivs.get(answerDivs.size() - 1);
+    }
+
+    public String getFirstInterviewLastQuestionLastAnswerText() {
+        WebElement answerDiv = getFirstInterviewLastQuestionLastAnswerDiv();
         return answerDiv.getText();
     }
 
@@ -79,4 +83,36 @@ public class SeleniumTestHelper {
         questionDiv.findElement(By.className("add-answer-btn")).click();
         Thread.sleep(BROWSER_WAIT_TIME);
     }
+
+    /** Assignment **/
+
+    public WebElement getFirstInterviewLastQuestionLastAnswerCtrlDiv() {
+        WebElement questionDiv = getFirstInterviewLastQuestionDiv();
+        List<WebElement> answerDivs = questionDiv.findElements(By.className("answer-ctrl-div"));
+        return answerDivs.get(answerDivs.size() - 1);
+    }
+
+    public void deleteFirstInterviewLastQuestion() throws Exception {
+        WebElement questionDiv = getFirstInterviewLastQuestionDiv();
+        questionDiv.findElement(By.className("delete-question-btn")).click();
+        Thread.sleep(BROWSER_WAIT_TIME);
+    }
+
+    public void deleteFirstInterviewLastQuestionLastAnswer() throws Exception {
+        WebElement answerDiv = getFirstInterviewLastQuestionLastAnswerCtrlDiv();
+        answerDiv.findElement(By.className("answer-delete-btn")).click();
+        Thread.sleep(BROWSER_WAIT_TIME);
+    }
+
+    public int getFirstInterviewQuestionDivsNumber() throws Exception {
+        WebElement interviewDiv = driver.findElement(By.className("interview-div"));
+        return interviewDiv.findElements(By.className("question-div")).size();
+    }
+
+    public int getFirstInterviewLastQuestionAnswerDivsNumber() throws Exception {
+        WebElement questionDiv = getFirstInterviewLastQuestionDiv();
+        return questionDiv.findElements(By.className("answer-div")).size();
+    }
+
+    /** End of assignment **/
 }
