@@ -1,14 +1,7 @@
 package test;
 
 import org.academy.java.Application;
-import org.academy.java.entity.Interview;
-import org.academy.java.entity.Question;
-import org.academy.java.repository.InterviewRepository;
-import org.academy.java.repository.QuestionRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -69,6 +62,26 @@ public class JunitSeleniumWebIntegrationTest {
         seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(checkBoxAnswerText);
         Assert.assertEquals(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText(), checkBoxAnswerText);
     }
+
+    /** Assignment **/
+
+    @Test
+    public void testDeleteQuestion() throws Exception{
+        seleniumTestHelper.createQuestionInFirstInterview(checkBoxQuestionText, SeleniumTestHelper.CHECKBOX_INDEX);
+        int nElementsBeforeDelete = seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
+        seleniumTestHelper.deleteFirstInterviewLastQuestion();
+        Assert.assertEquals(nElementsBeforeDelete - 1, seleniumTestHelper.getFirstInterviewQuestionDivsNumber());
+    }
+
+    @Test
+    public void testDeleteAnswer() throws Exception{
+        seleniumTestHelper.createQuestionInFirstInterview(checkBoxQuestionText, SeleniumTestHelper.CHECKBOX_INDEX);
+        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(checkBoxAnswerText);
+        seleniumTestHelper.deleteFirstInterviewLastQuestionLastAnswer();
+        Assert.assertEquals(0, seleniumTestHelper.getFirstInterviewLastQuestionAnswerDivsNumber());
+    }
+
+    /** End of assignment **/
 
     @After
     public void closeDriver() {

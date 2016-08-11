@@ -19,6 +19,8 @@ public class CucumberSeleniumQuestionCreationSteps {
 
     private SeleniumTestHelper seleniumTestHelper;
 
+    private int nElementsBeforeDelete;
+
     @Given("^user opens browser$")
     public void user_opens_browser() throws Throwable {
         seleniumTestHelper = new SeleniumTestHelper();
@@ -54,6 +56,31 @@ public class CucumberSeleniumQuestionCreationSteps {
     public void answer_appears_as_last_in_question(String arg1) throws Throwable {
         Assert.assertTrue(seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText().equals(arg1));
     }
+
+    /** Assignment **/
+
+    @When("^user deletes last question$")
+    public void user_deletes_last_question() throws Throwable {
+        nElementsBeforeDelete = seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
+        seleniumTestHelper.deleteFirstInterviewLastQuestion();
+    }
+
+    @Then("^number of questions decreases by one$")
+    public void number_of_questions_decreases_by_one() throws Throwable {
+        Assert.assertTrue(nElementsBeforeDelete - 1 == seleniumTestHelper.getFirstInterviewQuestionDivsNumber());
+    }
+
+    @When("^user deletes last answer in last question$")
+    public void user_deletes_last_answer_in_last_question() throws Throwable {
+        seleniumTestHelper.deleteFirstInterviewLastQuestionLastAnswer();
+    }
+
+    @Then("^number of answers in last question will be zero$")
+    public void number_of_answers_in_last_question_will_be_zero() throws Throwable {
+        Assert.assertTrue(seleniumTestHelper.getFirstInterviewLastQuestionAnswerDivsNumber() == 0);
+    }
+
+    /** End of assignment **/
 
     @Then("^user closes browser$")
     public void close_browser() throws Throwable {

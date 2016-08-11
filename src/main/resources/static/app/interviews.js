@@ -142,14 +142,14 @@ render: function() {
         return (
             <div className="answer-ctrl-div">
                 &nbsp;<input type={that.props.questionType} name="answers" checked={answer.correct} onChange={that.changeCorrectness.bind(that, answer.id)}/>
-                &nbsp;<a className="closeX" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
+                &nbsp;<a className="answer-delete-btn" onClick={that.deleteAnswer.bind(that, answer.id)}>&#10006;</a>
             </div>
         )
     });
 
     var answerInputRef = "a_input_" + this.props.questionId;
     return (
-        <div className={this.props.questionType}>
+        <div>
             <div>
                 <fieldset style={{float: 'left'}}>
                     {answers}

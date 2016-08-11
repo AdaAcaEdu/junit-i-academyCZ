@@ -26,3 +26,19 @@ Feature: question creation
       | questionText | answerText | typeIndex |
       | "This is question with checkbox" | "This is checkbox answer" | 0 |
       | "This is question with radio" | "This is radio answer" | 2 |
+
+  #Assignment
+
+  Scenario: Test question deletion
+    Given user creates "This is question with checkbox" question of type 0
+    When user deletes last question
+    Then number of questions decreases by one
+    Then user closes browser
+
+  Scenario: Test answer deletion
+    Given user creates "This is question with checkbox" question of type 0
+    And user adds "This is checkbox answer" answer to question
+    When user deletes last answer in last question
+    Then number of answers in last question will be zero
+
+  #End of assignment

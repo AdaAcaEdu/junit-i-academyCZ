@@ -51,6 +51,34 @@ class SpockSeleniumWebIntegrationTest extends Specification {
         "This is question with radio" | "This is radio answer" | SeleniumTestHelper.RADIO_INDEX
     }
 
+    /** Assignment **/
+
+    def "Test question deletion"() {
+        setup:
+        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", SeleniumTestHelper.CHECKBOX_INDEX);
+        int nElementsBeforeDelete = seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
+
+        when:
+        seleniumTestHelper.deleteFirstInterviewLastQuestion();
+
+        then:
+        nElementsBeforeDelete - 1 == seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
+    }
+
+    def "Test answer deletion"() {
+        setup:
+        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", SeleniumTestHelper.CHECKBOX_INDEX);
+        seleniumTestHelper.createAnswerInFirstInterviewLastQuestion("This is radio answer");
+
+        when:
+        seleniumTestHelper.deleteFirstInterviewLastQuestionLastAnswer();
+
+        then:
+        seleniumTestHelper.getFirstInterviewLastQuestionAnswerDivsNumber() == 0;
+    }
+
+    /** End of assignment **/
+
     def cleanup() {
         seleniumTestHelper.closeBrowser();
     }
