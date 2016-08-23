@@ -17,14 +17,23 @@ import test.integrationTestTools.SeleniumTestHelper;
 @WebIntegrationTest(value = "server.port=8080")
 public class CucumberSeleniumQuestionCreationSteps {
 
-    private SeleniumTestHelper seleniumTestHelper;
+    private static SeleniumTestHelper seleniumTestHelper;
+
+    private static boolean firstTest = true;
 
     private int nElementsBeforeDelete;
 
     @Given("^user opens browser$")
     public void user_opens_browser() throws Throwable {
-        seleniumTestHelper = new SeleniumTestHelper();
-        seleniumTestHelper.openBrowser();
+        if (firstTest) {
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public synchronized void run() {
+                    seleniumTestHelper.closeBrowser();
+                }
+            });
+            seleniumTestHelper = new SeleniumTestHelper();
+            seleniumTestHelper.openBrowser();
+        }
     }
 
     @Given("^user navigates to homepage$")
@@ -34,7 +43,10 @@ public class CucumberSeleniumQuestionCreationSteps {
 
     @Given("^user logs in$")
     public void user_logged_in() throws Throwable {
-        seleniumTestHelper.login();
+        if (firstTest) {
+            seleniumTestHelper.login();
+            firstTest = false;
+        }
 }
 
     @When("^user creates \"([^\"]*)\" question of type (\\d+)$")
@@ -81,10 +93,5 @@ public class CucumberSeleniumQuestionCreationSteps {
     }
 
     /** End of assignment **/
-
-    @Then("^user closes browser$")
-    public void close_browser() throws Throwable {
-        seleniumTestHelper.closeBrowser();
-    }
 
 }

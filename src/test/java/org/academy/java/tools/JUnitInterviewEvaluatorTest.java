@@ -7,26 +7,45 @@ import org.junit.*;
 
 public class JUnitInterviewEvaluatorTest {
 
-    private static InterviewEvaluator interviewEvaluator;
-    private static Interview interview;
-
-    private static Question checkboxQuestion;
-    private static Question textQuestion;
-    private static Question radioQuestion;
-
-    private static Answer a1;
-    private static Answer a2;
-    private static Answer a3;
-
     private static int testIndex = 1;
 
-    @BeforeClass
-    public static void setup() {
+    private InterviewEvaluator interviewEvaluator;
+    private Interview interview;
 
-        System.out.println("### Before all tests ###");
+    private Question checkboxQuestion;
+    private Question textQuestion;
+    private Question radioQuestion;
+
+    private Answer a1;
+    private Answer a2;
+    private Answer a3;
+
+    private void setUpRadioQuestionInterview() {
+        interview.getQuestions().add(checkboxQuestion);
+        checkboxQuestion.getAnswers().add(a1);
+        checkboxQuestion.getAnswers().add(a2);
+    }
+
+    private void setUpAllQuestionTypeInterview() {
+        interview.getQuestions().add(checkboxQuestion);
+        interview.getQuestions().add(textQuestion);
+        interview.getQuestions().add(radioQuestion);
+
+        checkboxQuestion.getAnswers().add(a1);
+        textQuestion.getAnswers().add(a2);
+        radioQuestion.getAnswers().add(a3);
+    }
+
+    @BeforeClass
+    public static void beforeClass() {
+        System.out.println("### Before all tests ###\n");
+    }
+
+    @Before
+    public void before() {
+        System.out.println("Before test #" + testIndex);
 
         interviewEvaluator = new InterviewEvaluator();
-
         interview = new Interview().setId(0);
 
         radioQuestion = new Question().setQuestionType(Question.QuestionType.RADIO).setId(0);
@@ -38,23 +57,10 @@ public class JUnitInterviewEvaluatorTest {
         a3 = new Answer().setId(2);
     }
 
-    @Before
-    public void clear() {
-
-        System.out.println("Before test #" + testIndex);
-
-        interview.getQuestions().clear();
-        radioQuestion.getAnswers().clear();
-        checkboxQuestion.getAnswers().clear();
-        textQuestion.getAnswers().clear();
-    }
-
     @Test
-    public void EvaluateCheckboxQuestionCorrectAnswerChosenTest() {
-
-        interview.getQuestions().add(checkboxQuestion);
-        checkboxQuestion.getAnswers().add(a1);
-        checkboxQuestion.getAnswers().add(a2);
+    public void evaluateRadioQuestionCorrectAnswerChosenTest() {
+        System.out.println("Inside 'evaluateRadioQuestionCorrectAnswerChosenTest'");
+        setUpRadioQuestionInterview();
 
         a1.setChosen(true).setCorrect(true);
         a2.setChosen(false).setCorrect(false);
@@ -62,11 +68,9 @@ public class JUnitInterviewEvaluatorTest {
     }
 
     @Test
-    public void EvaluateCheckboxQuestionIncorrectAnswerChosenTest() {
-
-        interview.getQuestions().add(checkboxQuestion);
-        checkboxQuestion.getAnswers().add(a1);
-        checkboxQuestion.getAnswers().add(a2);
+    public void evaluateRadioQuestionIncorrectAnswerChosenTest() {
+        System.out.println("Inside 'evaluateRadioQuestionCorrectAnswerChosenTest'");
+        setUpRadioQuestionInterview();
 
         a1.setChosen(true).setCorrect(false);
         a2.setChosen(false).setCorrect(true);
@@ -74,11 +78,9 @@ public class JUnitInterviewEvaluatorTest {
     }
 
     @Test
-    public void EvaluateCheckboxQuestionAnswerNotChosenTest() {
-
-        interview.getQuestions().add(checkboxQuestion);
-        checkboxQuestion.getAnswers().add(a1);
-        checkboxQuestion.getAnswers().add(a2);
+    public void evaluateRadioQuestionAnswerNotChosenTest() {
+        System.out.println("Inside 'evaluateRadioQuestionAnswerNotChosenTest'");
+        setUpRadioQuestionInterview();
 
         a1.setChosen(false).setCorrect(false);
         a2.setChosen(false).setCorrect(true);
@@ -86,17 +88,9 @@ public class JUnitInterviewEvaluatorTest {
     }
 
     @Test
-    public void EvaluateInterviewAllAnswersCorrectTest() {
-
-        Interview interview = new Interview();
-
-        interview.getQuestions().add(checkboxQuestion);
-        interview.getQuestions().add(textQuestion);
-        interview.getQuestions().add(radioQuestion);
-
-        checkboxQuestion.getAnswers().add(a1);
-        textQuestion.getAnswers().add(a2);
-        radioQuestion.getAnswers().add(a3);
+    public void evaluateInterviewAllAnswersCorrectTest() {
+        System.out.println("Inside 'evaluateInterviewAllAnswersCorrectTest'");
+        setUpAllQuestionTypeInterview();
 
         a1.setChosen(true).setCorrect(true);
         a2.setChosen(true).setCorrect(true);
@@ -105,15 +99,9 @@ public class JUnitInterviewEvaluatorTest {
     }
 
     @Test
-    public void EvaluateInterviewAllAnswersIncorrectTest() {
-
-        interview.getQuestions().add(checkboxQuestion);
-        interview.getQuestions().add(textQuestion);
-        interview.getQuestions().add(radioQuestion);
-
-        checkboxQuestion.getAnswers().add(a1);
-        textQuestion.getAnswers().add(a2);
-        radioQuestion.getAnswers().add(a3);
+    public void evaluateInterviewAllAnswersIncorrectTest() {
+        System.out.println("Inside 'evaluateInterviewAllAnswersIncorrectTest'");
+        setUpAllQuestionTypeInterview();
 
         a1.setChosen(false).setCorrect(true);
         a2.setChosen(false).setCorrect(false);
@@ -123,7 +111,7 @@ public class JUnitInterviewEvaluatorTest {
 
     @After
     public void after() {
-        System.out.println("After test #" + testIndex);
+        System.out.println("After test #" + testIndex + "\n");
         testIndex++;
     }
 

@@ -10,13 +10,20 @@ import test.integrationTestTools.SeleniumTestHelper
 @WebIntegrationTest(value = "server.port=8080")
 class SpockSeleniumWebIntegrationTest extends Specification {
 
-    private SeleniumTestHelper seleniumTestHelper;
+    private static SeleniumTestHelper seleniumTestHelper;
+    private static boolean firstTest = true;
 
-    def setup() {
+    def setupSpec() {
         seleniumTestHelper = new SeleniumTestHelper();
         seleniumTestHelper.openBrowser();
+    }
+
+    def setup() {
         seleniumTestHelper.navigateToHomepage();
-        seleniumTestHelper.login();
+        if (firstTest) {
+            seleniumTestHelper.login();
+            firstTest = false;
+        }
     }
 
     def "Test radio, checkbox and text question creation"() {
@@ -79,7 +86,7 @@ class SpockSeleniumWebIntegrationTest extends Specification {
 
     /** End of assignment **/
 
-    def cleanup() {
+    def cleanupSpec() {
         seleniumTestHelper.closeBrowser();
     }
 }

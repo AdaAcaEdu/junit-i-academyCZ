@@ -20,14 +20,23 @@ public class JunitSeleniumWebIntegrationTest {
     private static final String checkBoxAnswerText = "This is checkbox answer";
     private static final String radioAnswerText = "This is radio answer";
 
-    private SeleniumTestHelper seleniumTestHelper;
+    private static SeleniumTestHelper seleniumTestHelper;
+
+    private static boolean firstTest = true;
+
+    @BeforeClass
+    public static void openBrowser() {
+        seleniumTestHelper = new SeleniumTestHelper();
+        seleniumTestHelper.openBrowser();
+    }
 
     @Before
     public void init() throws Exception{
-        seleniumTestHelper = new SeleniumTestHelper();
-        seleniumTestHelper.openBrowser();
         seleniumTestHelper.navigateToHomepage();
-        seleniumTestHelper.login();
+        if (firstTest) {
+            seleniumTestHelper.login();
+            firstTest = false;
+        }
     }
 
     @Test
@@ -82,8 +91,8 @@ public class JunitSeleniumWebIntegrationTest {
 
     /** End of assignment **/
 
-    @After
-    public void closeDriver() {
+    @AfterClass
+    public static void closeDriver() {
         seleniumTestHelper.closeBrowser();
     }
 }

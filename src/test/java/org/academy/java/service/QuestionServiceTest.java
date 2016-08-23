@@ -7,10 +7,15 @@ import org.academy.java.repository.QuestionRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.mockito.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
+@RunWith(Parameterized.class)
 public class QuestionServiceTest {
 
     @InjectMocks
@@ -22,66 +27,48 @@ public class QuestionServiceTest {
     @Mock
     QuestionRepository questionRepository;
 
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                { true , true, null, true, false },
+                { false, true, null, false, true },
+                { true, false, (long)2, false, true }
+        });
+    }
+
     @Before
     public void initMocks(){
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void testAddAnswerToQuestion() throws Exception {
-        Mockito.when(answerRepository.save(Matchers.any(Answer.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(questionRepository.save(Matchers.any(Question.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+    private boolean firstAnswerCorrect;
+    private boolean secondAnsweCorrect;
+    private Long correctAnswerIndex;
+    private boolean expectedFirstAnswerCorrect;
+    private boolean expectedSecondAnswrCorrect;
 
-        Question question = new Question();
-        Answer answer = new Answer();
+    public QuestionServiceTest(boolean firstAnswerCorrect, boolean secondAnsweCorrect, Long correctAnswerIndex,
+            boolean expectedFirstAnswerCorrect, boolean expectedSecondAnswrCorrect) {
 
-        questionService.addAnswerToQuestion(question, answer);
-        Assert.assertEquals(question.getAnswers().size(), 1);
-        Assert.assertEquals(question.getAnswers().iterator().next(), answer);
+        this.firstAnswerCorrect = firstAnswerCorrect;
+        this.secondAnsweCorrect = secondAnsweCorrect;
+        this.correctAnswerIndex = correctAnswerIndex;
+        this.expectedFirstAnswerCorrect = expectedFirstAnswerCorrect;
+        this.expectedSecondAnswrCorrect = expectedSecondAnswrCorrect;
     }
 
     @Test
-    public void testMakeRadioAnswersForQuestion() throws Exception {
+    public void testMakeRadioAnswers() throws Exception {
+
         Question question = new Question();
-        questionService.makeRadioAnswersForQuestion(question, null);
+        question.setQuestionType(Question.QuestionType.CHECKBOX);
+        question.getAnswers().add(new Answer().setId(1).setCorrect(firstAnswerCorrect));
+        question.getAnswers().add(new Answer().setId(2).setCorrect(secondAnsweCorrect));
+        questionService.makeRadioAnswersForQuestion(question, correctAnswerIndex);
+
         Iterator<Answer> itr = question.getAnswers().iterator();
-
-        Assert.assertEquals(question.getAnswers().size(), 1);
-        Assert.assertTrue(itr.next().isCorrect());
-
-        question = new Question();
-        question.setQuestionType(Question.QuestionType.CHECKBOX);
-        question.getAnswers().add(new Answer().setId(1).setCorrect(true));
-        question.getAnswers().add(new Answer().setId(2).setCorrect(true));
-        questionService.makeRadioAnswersForQuestion(question, null);
-        itr = question.getAnswers().iterator();
-
         Assert.assertEquals(2, question.getAnswers().size());
-        Assert.assertTrue(itr.next().isCorrect());
-        Assert.assertFalse(itr.next().isCorrect());
-
-        question = new Question();
-        question.setQuestionType(Question.QuestionType.CHECKBOX);
-        question.getAnswers().add(new Answer().setId(1).setCorrect(false));
-        question.getAnswers().add(new Answer().setId(2).setCorrect(true));
-        questionService.makeRadioAnswersForQuestion(question, null);
-
-        Assert.assertEquals(2, question.getAnswers().size());
-        itr = question.getAnswers().iterator();
-        Assert.assertFalse(itr.next().isCorrect());
-        Assert.assertTrue(itr.next().isCorrect());
-
-        question = new Question();
-        question.setQuestionType(Question.QuestionType.CHECKBOX);
-        question.getAnswers().add(new Answer().setId(1).setCorrect(true));
-        question.getAnswers().add(new Answer().setId(2).setCorrect(false));
-        questionService.makeRadioAnswersForQuestion(question, (long)2);
-
-        Assert.assertEquals(2, question.getAnswers().size());
-        itr = question.getAnswers().iterator();
-        Assert.assertFalse(itr.next().isCorrect());
-        Assert.assertTrue(itr.next().isCorrect());
+        Assert.assertEquals(expectedFirstAnswerCorrect, itr.next().isCorrect());
+        Assert.assertEquals(expectedSecondAnswrCorrect, itr.next().isCorrect());
     }
-
-
 }

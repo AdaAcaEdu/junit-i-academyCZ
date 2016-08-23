@@ -21,4 +21,5 @@ public class CriteriaApiQuestionServiceTest extends IntegrationTest {
     public void testGetQuestionsByTypes() throws Exception {
         List<Question> questions = questionService.getQuestionsByTypes(CHECKBOX, RADIO, TEXT_AREA);
         assertThat(questions.size(), is(3));
-    }}
+    }
+}
