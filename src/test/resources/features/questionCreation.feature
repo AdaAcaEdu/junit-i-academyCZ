@@ -20,7 +20,7 @@ Feature: question creation
     When user adds <answerText> answer to question
     Then <answerText> answer appears as last in question
 
-    Examples:x`
+    Examples:
       | questionText | answerText | typeIndex |
       | "This is question with checkbox" | "This is checkbox answer" | 0 |
       | "This is question with radio" | "This is radio answer" | 2 |

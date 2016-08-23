@@ -1,5 +1,6 @@
 package test.integrationTestTools;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -30,8 +31,9 @@ public class SeleniumTestHelper {
         driver = new ChromeDriver();
     }
 
-    public void navigateToHomepage() {
+    public void navigateToHomepage() throws Exception {
         driver.get("localhost:8080");
+        Thread.sleep(BROWSER_WAIT_TIME);
     }
 
     public void closeBrowser() {

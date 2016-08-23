@@ -45,16 +45,16 @@ public class QuestionServiceTest {
     private boolean secondAnsweCorrect;
     private Long correctAnswerIndex;
     private boolean expectedFirstAnswerCorrect;
-    private boolean expectedSecondAnswrCorrect;
+    private boolean expectedSecondAnswerCorrect;
 
     public QuestionServiceTest(boolean firstAnswerCorrect, boolean secondAnsweCorrect, Long correctAnswerIndex,
-            boolean expectedFirstAnswerCorrect, boolean expectedSecondAnswrCorrect) {
+            boolean expectedFirstAnswerCorrect, boolean expectedSecondAnswerCorrect) {
 
         this.firstAnswerCorrect = firstAnswerCorrect;
         this.secondAnsweCorrect = secondAnsweCorrect;
         this.correctAnswerIndex = correctAnswerIndex;
         this.expectedFirstAnswerCorrect = expectedFirstAnswerCorrect;
-        this.expectedSecondAnswrCorrect = expectedSecondAnswrCorrect;
+        this.expectedSecondAnswerCorrect = expectedSecondAnswerCorrect;
     }
 
     @Test
@@ -68,7 +68,8 @@ public class QuestionServiceTest {
 
         Iterator<Answer> itr = question.getAnswers().iterator();
         Assert.assertEquals(2, question.getAnswers().size());
+        Assert.assertEquals(question.getQuestionType(), Question.QuestionType.RADIO);
         Assert.assertEquals(expectedFirstAnswerCorrect, itr.next().isCorrect());
-        Assert.assertEquals(expectedSecondAnswrCorrect, itr.next().isCorrect());
+        Assert.assertEquals(expectedSecondAnswerCorrect, itr.next().isCorrect());
     }
 }
