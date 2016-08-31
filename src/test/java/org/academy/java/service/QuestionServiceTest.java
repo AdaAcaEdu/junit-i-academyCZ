@@ -39,6 +39,9 @@ public class QuestionServiceTest {
     @Before
     public void initMocks(){
         MockitoAnnotations.initMocks(this);
+
+        Mockito.when(answerRepository.save(Matchers.any(Answer.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(questionRepository.save(Matchers.any(Question.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
     }
 
     private boolean firstAnswerCorrect;
