@@ -49,6 +49,7 @@ public class InterviewEvaluator {
 
     public int evaluateInterview(Interview interview) {
         throw new NotImplementedException("");
+
         /*
         int result = 0;
         for (Question question : interview.getQuestions()) {

@@ -2,11 +2,9 @@ package org.academy.java.service;
 
 
 import org.academy.java.entity.Answer;
-import org.academy.java.entity.Interview;
 import org.academy.java.entity.Question;
 import org.academy.java.entity.Question.QuestionType;
 import org.academy.java.repository.AnswerRepository;
-import org.academy.java.repository.InterviewRepository;
 import org.academy.java.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

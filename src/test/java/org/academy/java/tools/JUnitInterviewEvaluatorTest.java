@@ -21,12 +21,29 @@ public class JUnitInterviewEvaluatorTest {
     private Answer a3;
 
     private void setUpRadioQuestionInterview() {
+        interview.getQuestions().clear();
+        checkboxQuestion.getAnswers().clear();
+
+        interview.getQuestions().add(radioQuestion);
+        checkboxQuestion.getAnswers().add(a1);
+        checkboxQuestion.getAnswers().add(a2);
+    }
+
+    private void setUpCheckboxQuestionInterview() {
+        interview.getQuestions().clear();
+        radioQuestion.getAnswers().clear();
+
         interview.getQuestions().add(checkboxQuestion);
         checkboxQuestion.getAnswers().add(a1);
         checkboxQuestion.getAnswers().add(a2);
     }
 
     private void setUpAllQuestionTypeInterview() {
+        interview.getQuestions().clear();
+        radioQuestion.getAnswers().clear();
+        checkboxQuestion.getAnswers().clear();
+        textQuestion.getAnswers().clear();
+
         interview.getQuestions().add(checkboxQuestion);
         interview.getQuestions().add(textQuestion);
         interview.getQuestions().add(radioQuestion);
@@ -86,6 +103,50 @@ public class JUnitInterviewEvaluatorTest {
         a2.setChosen(false).setCorrect(true);
         Assert.assertEquals(0, interviewEvaluator.evaluateInterview(interview));
     }
+
+    /*********************************** Assignment *******************************************************************/
+
+    @Test
+    public void evaluateCheckboxQuesionCorrectAnswersChosen() {
+        setUpCheckboxQuestionInterview();
+        a1.setChosen(true).setCorrect(true);
+        a2.setChosen(true).setCorrect(true);
+        Assert.assertEquals(1, interviewEvaluator.evaluateInterview(interview));
+    }
+
+    @Test
+    public void evaluateCheckboxQuestionAnswerNotChosenWithoutCorrectTest() {
+        setUpCheckboxQuestionInterview();
+        a1.setChosen(false).setCorrect(false);
+        a2.setChosen(false).setCorrect(false);
+        Assert.assertEquals(1, interviewEvaluator.evaluateInterview(interview));
+    }
+
+    @Test
+    public void evaluateCheckboxQuestionAnswerNotChosenWithCorrectTest() {
+        setUpCheckboxQuestionInterview();
+        a1.setChosen(false).setCorrect(false);
+        a2.setChosen(false).setCorrect(true);
+        Assert.assertEquals(0, interviewEvaluator.evaluateInterview(interview));
+    }
+
+    @Test
+    public void evaluateCheckboxQuestionCorrectAndIncorrectAnswerChosenTest() {
+        setUpCheckboxQuestionInterview();
+        a1.setChosen(true).setCorrect(false);
+        a2.setChosen(true).setCorrect(true);
+        Assert.assertEquals(0, interviewEvaluator.evaluateInterview(interview));
+    }
+
+    @Test
+    public void evaluateCheckboxQuestionOneCorrectAnswerChosenTest() {
+        setUpCheckboxQuestionInterview();
+        a1.setChosen(true).setCorrect(true);
+        a2.setChosen(false).setCorrect(true);
+        Assert.assertEquals(0, interviewEvaluator.evaluateInterview(interview));
+    }
+
+    /*********************************** End of assignment ************************************************************/
 
     @Test
     public void evaluateInterviewAllAnswersCorrectTest() {
