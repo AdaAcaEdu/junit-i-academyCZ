@@ -22,7 +22,7 @@ public class JUnitInterviewEvaluatorTest {
 
     private void setUpRadioQuestionInterview() {
         interview.getQuestions().clear();
-        checkboxQuestion.getAnswers().clear();
+        radioQuestion.getAnswers().clear();
 
         interview.getQuestions().add(radioQuestion);
         checkboxQuestion.getAnswers().add(a1);
@@ -31,7 +31,7 @@ public class JUnitInterviewEvaluatorTest {
 
     private void setUpCheckboxQuestionInterview() {
         interview.getQuestions().clear();
-        radioQuestion.getAnswers().clear();
+        checkboxQuestion.getAnswers().clear();
 
         interview.getQuestions().add(checkboxQuestion);
         checkboxQuestion.getAnswers().add(a1);

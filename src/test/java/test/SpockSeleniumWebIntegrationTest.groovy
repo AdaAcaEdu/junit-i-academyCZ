@@ -36,9 +36,9 @@ class SpockSeleniumWebIntegrationTest extends Specification {
 
         where:
         questionText | typeIndex
-        "This is question with checkbox" | SeleniumTestHelper.CHECKBOX_INDEX
-        "This is question with textarea" | SeleniumTestHelper.TEXTAREA_INDEX
-        "This is question with radio" | SeleniumTestHelper.RADIO_INDEX
+        "This is question with checkbox" | "Checkbox"
+        "This is question with textarea" | "Text"
+        "This is question with radio" | "Radio"
     }
 
     def "Test radio and checkbox answer creation"() {
@@ -54,15 +54,15 @@ class SpockSeleniumWebIntegrationTest extends Specification {
 
         where:
         questionText | answerText | typeIndex
-        "This is question with checkbox" | "This is checkbox answer" | SeleniumTestHelper.CHECKBOX_INDEX
-        "This is question with radio" | "This is radio answer" | SeleniumTestHelper.RADIO_INDEX
+        "This is question with checkbox" | "This is checkbox answer" | "Checkbox"
+        "This is question with radio" | "This is radio answer" | "Radio"
     }
 
     /** Assignment **/
 
     def "Test question deletion"() {
         setup:
-        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", SeleniumTestHelper.CHECKBOX_INDEX);
+        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", "Checkbox");
         int nElementsBeforeDelete = seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
 
         when:
@@ -74,7 +74,7 @@ class SpockSeleniumWebIntegrationTest extends Specification {
 
     def "Test answer deletion"() {
         setup:
-        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", SeleniumTestHelper.CHECKBOX_INDEX);
+        seleniumTestHelper.createQuestionInFirstInterview("This is question with checkbox", "Checkbox");
         seleniumTestHelper.createAnswerInFirstInterviewLastQuestion("This is radio answer");
 
         when:

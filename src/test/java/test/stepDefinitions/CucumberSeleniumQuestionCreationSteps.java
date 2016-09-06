@@ -47,10 +47,10 @@ public class CucumberSeleniumQuestionCreationSteps {
             seleniumTestHelper.login();
             firstTest = false;
         }
-}
+    }
 
-    @When("^user creates \"([^\"]*)\" question of type (\\d+)$")
-    public void user_creates_question_of_type(String arg1, int arg2) throws Throwable {
+    @When("^user creates \"([^\"]*)\" question of type \"([^\"]*)\"$")
+    public void user_creates_question_of_type(String arg1, String arg2) throws Throwable {
         seleniumTestHelper.createQuestionInFirstInterview(arg1, arg2);
     }
 
