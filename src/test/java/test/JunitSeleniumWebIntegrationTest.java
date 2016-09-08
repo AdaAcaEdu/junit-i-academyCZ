@@ -8,8 +8,6 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import test.integrationTestTools.SeleniumTestHelper;
 
-import static org.academy.java.entity.Question.QuestionType;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest(value = "server.port=8080")
