@@ -5,20 +5,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
-/**
- * Created by stanislav.galfy on 1.8.2016.
- */
+
 public class SeleniumTestHelper {
 
-    private static final int BROWSER_WAIT_TIME = 2000;
-
-    public static final int CHECKBOX_INDEX = 0;
-    public static final int TEXTAREA_INDEX = 1;
-    public static final int RADIO_INDEX = 2;
+    private static final int BROWSER_WAIT_TIME = 500;
 
     private WebDriver driver;
 
@@ -68,11 +62,13 @@ public class SeleniumTestHelper {
         Thread.sleep(BROWSER_WAIT_TIME);
     }
 
-    public void createQuestionInFirstInterview(String text, int typeIndex) throws Exception {
+    public void createQuestionInFirstInterview(String text, String questionType) throws Exception {
         WebElement interviewDiv = driver.findElement(By.className("interview-div"));
         interviewDiv.findElement(By.className("add-question-input")).sendKeys(text);
         interviewDiv.findElement(By.className("add-question-select")).click();
-        IntStream.range(0, typeIndex).forEach(i -> interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ARROW_DOWN));
+
+        Select select = new Select(interviewDiv.findElement(By.className("add-question-select")));
+        select.selectByVisibleText(questionType);
         interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
         interviewDiv.findElement(By.className("add-question-btn")).click();
         Thread.sleep(BROWSER_WAIT_TIME);

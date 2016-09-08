@@ -29,13 +29,13 @@ class SpockSeleniumWebIntegrationTest extends Specification {
     def "Test radio, checkbox and text question creation"() {
 
         when:
-        seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
+        seleniumTestHelper.createQuestionInFirstInterview(questionText, type);
 
         then:
         seleniumTestHelper.getFirstInterviewLastQuestionText() == questionText;
 
         where:
-        questionText | typeIndex
+        questionText | type
         "This is question with checkbox" | "Checkbox"
         "This is question with textarea" | "Text"
         "This is question with radio" | "Radio"
@@ -44,7 +44,7 @@ class SpockSeleniumWebIntegrationTest extends Specification {
     def "Test radio and checkbox answer creation"() {
 
         setup:
-        seleniumTestHelper.createQuestionInFirstInterview(questionText, typeIndex);
+        seleniumTestHelper.createQuestionInFirstInterview(questionText, type);
 
         when:
         seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(answerText);
@@ -53,7 +53,7 @@ class SpockSeleniumWebIntegrationTest extends Specification {
         seleniumTestHelper.getFirstInterviewLastQuestionLastAnswerText() == answerText;
 
         where:
-        questionText | answerText | typeIndex
+        questionText | answerText | type
         "This is question with checkbox" | "This is checkbox answer" | "Checkbox"
         "This is question with radio" | "This is radio answer" | "Radio"
     }
