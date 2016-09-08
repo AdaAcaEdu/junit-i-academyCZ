@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -20,8 +21,11 @@ public class SeleniumTestHelper {
     }
 
     public void openBrowser() {
+        driver = new FirefoxDriver();
+        /* Assignment
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         driver = new ChromeDriver();
+        */
     }
 
     public void navigateToHomepage() throws Exception {
@@ -65,11 +69,8 @@ public class SeleniumTestHelper {
     public void createQuestionInFirstInterview(String text, String questionType) throws Exception {
         WebElement interviewDiv = driver.findElement(By.className("interview-div"));
         interviewDiv.findElement(By.className("add-question-input")).sendKeys(text);
-        interviewDiv.findElement(By.className("add-question-select")).click();
-
         Select select = new Select(interviewDiv.findElement(By.className("add-question-select")));
         select.selectByVisibleText(questionType);
-        interviewDiv.findElement(By.className("add-question-select")).sendKeys(Keys.ENTER);
         interviewDiv.findElement(By.className("add-question-btn")).click();
         Thread.sleep(BROWSER_WAIT_TIME);
     }
