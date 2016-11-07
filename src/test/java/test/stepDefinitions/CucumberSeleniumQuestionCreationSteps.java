@@ -23,8 +23,8 @@ public class CucumberSeleniumQuestionCreationSteps {
 
     private int nElementsBeforeDelete;
 
-    @Given("^user opens browser$")
-    public void user_opens_browser() throws Throwable {
+    @Given("^admin opens browser$")
+    public void admin_opens_browser() throws Throwable {
         if (firstTest) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public synchronized void run() {
@@ -36,26 +36,26 @@ public class CucumberSeleniumQuestionCreationSteps {
         }
     }
 
-    @Given("^user navigates to homepage$")
-    public void user_navigates_to_homepage() throws Throwable {
+    @Given("^admin navigates to homepage$")
+    public void admin_navigates_to_homepage() throws Throwable {
         seleniumTestHelper.navigateToHomepage();
     }
 
-    @Given("^user logs in$")
-    public void user_logged_in() throws Throwable {
+    @Given("^admin logs in$")
+    public void admin_logged_in() throws Throwable {
         if (firstTest) {
             seleniumTestHelper.login();
             firstTest = false;
         }
     }
 
-    @When("^user creates \"([^\"]*)\" question of type \"([^\"]*)\"$")
-    public void user_creates_question_of_type(String arg1, String arg2) throws Throwable {
+    @When("^admin creates \"([^\"]*)\" question of type \"([^\"]*)\"$")
+    public void admin_creates_question_of_type(String arg1, String arg2) throws Throwable {
         seleniumTestHelper.createQuestionInFirstInterview(arg1, arg2);
     }
 
-    @When("^user adds \"([^\"]*)\" answer to question$")
-    public void user_adds_answer_to_question(String arg1) throws Throwable {
+    @When("^admin adds \"([^\"]*)\" answer to question$")
+    public void admin_adds_answer_to_question(String arg1) throws Throwable {
         seleniumTestHelper.createAnswerInFirstInterviewLastQuestion(arg1);
     }
 
@@ -71,8 +71,8 @@ public class CucumberSeleniumQuestionCreationSteps {
 
     /** Assignment **/
 
-    @When("^user deletes last question$")
-    public void user_deletes_last_question() throws Throwable {
+    @When("^admin deletes last question$")
+    public void admin_deletes_last_question() throws Throwable {
         nElementsBeforeDelete = seleniumTestHelper.getFirstInterviewQuestionDivsNumber();
         seleniumTestHelper.deleteFirstInterviewLastQuestion();
     }
@@ -82,8 +82,8 @@ public class CucumberSeleniumQuestionCreationSteps {
         Assert.assertTrue(nElementsBeforeDelete - 1 == seleniumTestHelper.getFirstInterviewQuestionDivsNumber());
     }
 
-    @When("^user deletes last answer in last question$")
-    public void user_deletes_last_answer_in_last_question() throws Throwable {
+    @When("^admin deletes last answer in last question$")
+    public void admin_deletes_last_answer_in_last_question() throws Throwable {
         seleniumTestHelper.deleteFirstInterviewLastQuestionLastAnswer();
     }
 
