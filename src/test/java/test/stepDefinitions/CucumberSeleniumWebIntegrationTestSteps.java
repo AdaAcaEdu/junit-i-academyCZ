@@ -15,7 +15,7 @@ import test.integrationTestTools.SeleniumTestHelper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class, loader = SpringApplicationContextLoader.class)
 @WebIntegrationTest(value = "server.port=8080")
-public class CucumberSeleniumQuestionCreationSteps {
+public class CucumberSeleniumWebIntegrationTestSteps {
 
     private static SeleniumTestHelper seleniumTestHelper;
 
