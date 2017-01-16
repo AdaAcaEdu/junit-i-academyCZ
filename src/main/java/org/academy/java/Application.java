@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.ACCESS_OVERRIDE_ORDER;
 
@@ -29,10 +33,21 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {  //maybe show the one with UserDetailsService and password hash
+
         auth.inMemoryAuthentication()
                 .withUser("test").password("test").roles("USER")
                 .and()
                 .withUser("admin").password("admin").roles("ADMIN", "USER");
+
+//        auth.userDetailsService(new UserDetailsService() {
+//            @Override
+//            public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+//
+//                System.out.println(username);
+//                return null;
+//
+//            }
+//        });
     }
 
     @Override
@@ -47,8 +62,8 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/app/**",         // js app scripts
                             "/")            // root, index.html is returned on root by default
                 .permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .anyRequest().authenticated().and()
+                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                 .csrf().disable();
     }
 }

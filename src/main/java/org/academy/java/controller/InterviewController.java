@@ -25,6 +25,7 @@ public class InterviewController {
     private QuestionService questionService;
 
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/interviews")
     Iterable<Interview> getInterviews() {
         return interviewService.getInterviews();
